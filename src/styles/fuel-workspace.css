@@ -1,0 +1,77 @@
+@import './design-system.css';
+
+/* Presentation adapter for the existing fuel forms. Keep their Tailwind layout,
+   visibility classes, print layout, event handlers and mounted state intact. */
+@media screen {
+  :root .fuel-workspace {
+    background: var(--ui-canvas);
+    color: var(--ui-text);
+    font-family: var(--ui-font);
+    font-size: var(--ui-text-base);
+    line-height: 1.5;
+  }
+  :root .fuel-workspace :is(.text-xs, .text-sm, .text-\[10px\], .text-\[11px\], .text-\[12px\]) { font-size: var(--ui-text-base); line-height: 1.5; }
+  :root .fuel-workspace :is(.text-slate-400, .text-slate-500) { color: var(--ui-text-muted); }
+  :root .fuel-workspace :is(h1, h2, h3) { letter-spacing: normal; line-height: 1.3; overflow-wrap: anywhere; }
+  :root .fuel-workspace h1 { font-size: var(--ui-text-xl); font-weight: 700; }
+  :root .fuel-workspace h2 { font-size: var(--ui-text-lg); font-weight: 700; }
+  :root .fuel-workspace .font-black { font-weight: 700; }
+  :root .fuel-workspace :is(.border-slate-100, .border-slate-200) { border-color: var(--ui-border); }
+  :root .fuel-workspace :is(.rounded-2xl, .rounded-3xl):not(button):not(input):not(select):not(textarea) { border-radius: var(--ui-radius-card); }
+  :root .fuel-workspace .bg-white.border-2 { border-width: 1px; }
+  :root .fuel-workspace :is(.shadow-sm, .shadow-lg) { box-shadow: var(--ui-shadow-card); }
+  :root .fuel-workspace .shadow-2xl { box-shadow: var(--ui-shadow-dialog); }
+  :root .fuel-workspace :is(.bg-slate-50, .bg-slate-100) { background-color: var(--ui-surface-muted); }
+  :root .fuel-workspace button {
+    min-height: var(--ui-control-height);
+    min-width: 44px;
+    border-radius: var(--ui-radius-control);
+    font-size: var(--ui-text-base);
+    line-height: 1.4;
+    font-weight: 600;
+  }
+  :root .fuel-workspace button:is(.bg-emerald-600, .bg-emerald-700, .bg-emerald-800) { background: var(--ui-primary); color: white; border-color: var(--ui-primary); }
+  :root .fuel-workspace button:is(.bg-emerald-600, .bg-emerald-700, .bg-emerald-800):hover:not(:disabled) { background: var(--ui-primary-hover); }
+  :root .fuel-workspace button:is(.bg-emerald-50, .bg-emerald-100) { background: var(--ui-primary-soft); color: var(--ui-primary); }
+  :root .fuel-workspace button.bg-white:is(.text-emerald-600, .text-emerald-700) { color: var(--ui-primary); border-color: var(--ui-border); }
+  :root .fuel-workspace button:disabled { opacity: .55; cursor: not-allowed; }
+  :root .fuel-workspace :is(input:not([type='checkbox']):not([type='radio']), select, textarea) {
+    min-height: var(--ui-control-height);
+    border-width: 1px;
+    border-color: var(--ui-input-border);
+    border-radius: var(--ui-radius-control);
+    font-size: var(--ui-text-base);
+    color: var(--ui-text);
+    background-color: var(--ui-surface);
+  }
+  :root .fuel-workspace :is(input, textarea)::placeholder { color: var(--ui-text-muted); opacity: 1; }
+  :root .fuel-workspace input:is([type='checkbox'], [type='radio']) { min-width: 22px; min-height: 22px; accent-color: var(--ui-primary); }
+  :root .fuel-workspace :is(button, input, select, textarea, summary, [tabindex]):focus-visible { outline: 3px solid var(--ui-focus); outline-offset: 3px; box-shadow: none; }
+  :root .fuel-workspace table { font-size: var(--ui-text-base); font-variant-numeric: tabular-nums; }
+  :root .fuel-workspace th { text-transform: none; letter-spacing: normal; color: var(--ui-text-muted); background: var(--ui-surface-muted); }
+  :root .fuel-workspace :is(th, td) { padding: var(--ui-space-4); }
+  :root .fuel-workspace div:has(> table) { overflow-x: auto; }
+  :root .fuel-workspace .fuel-back-button { width: auto; height: auto; padding: var(--ui-space-3); }
+  :root .fuel-workspace .fixed > .bg-white { max-height: calc(100dvh - 32px); overflow-y: auto; }
+  :root .fuel-workspace .ui-page-header { margin: 0; }
+  :root .fuel-workspace .fuel-close-button { padding: var(--ui-space-2) var(--ui-space-3); }
+  :root .fuel-workspace .fuel-metric-card { padding: var(--ui-space-5); min-width: 0; }
+  :root .fuel-workspace .fuel-metric-card .text-3xl { font-size: var(--ui-text-lg); overflow-wrap: anywhere; }
+  :root .fuel-workspace .fuel-metric-card .rounded-full { border-radius: var(--ui-radius-control); }
+  :root .fuel-workspace nav [aria-current='page'] { background: var(--ui-primary-soft); color: var(--ui-primary); }
+  :root .fuel-workspace nav [aria-current='page'] svg { color: var(--ui-primary); }
+  :root .fuel-workspace nav [aria-current='page'] > .absolute { background: var(--ui-primary); }
+  :root .fuel-workspace :is(.fuel-staff-header, .fuel-staff-row) { grid-template-columns: 70px minmax(160px, 1.5fr) minmax(100px, 1fr) minmax(140px, 1fr) 90px 110px 130px; }
+  @media (max-width: 1600px) {
+    :root .fuel-workspace .fuel-staff-header { display: none; }
+    :root .fuel-workspace .fuel-staff-row { grid-template-columns: repeat(2, minmax(0, 1fr)); border-bottom: 1px solid var(--ui-border); }
+    :root .fuel-workspace .fuel-staff-row .lg\:hidden { display: block; }
+  }
+  @media (max-width: 760px) {
+    :root .fuel-workspace { flex-direction: column; }
+    :root .fuel-workspace main { padding: var(--ui-space-4); }
+    :root .fuel-workspace .fuel-staff-row { grid-template-columns: minmax(0, 1fr); }
+    :root .fuel-workspace :is(.p-7, .p-8) { padding: var(--ui-space-4); }
+    :root .fuel-workspace :is(.px-7, .px-8) { padding-left: var(--ui-space-4); padding-right: var(--ui-space-4); }
+  }
+}

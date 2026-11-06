@@ -1,0 +1,355 @@
+@import "tailwindcss";
+
+/* =========================================================
+   Base Reset & Typography
+   ========================================================= */
+
+:root {
+  color-scheme: light;
+  font-family:
+    'Inter',
+    'Segoe UI',
+    system-ui,
+    -apple-system,
+    'Helvetica Neue',
+    Arial,
+    sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'cv11', 'ss01';
+  font-variation-settings: 'opsz' 32;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #f7f9fc;
+  color: #0f172a;
+  font-family:
+    'Inter',
+    'Segoe UI',
+    system-ui,
+    -apple-system,
+    'Helvetica Neue',
+    Arial,
+    sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* =========================================================
+   Typography Refinements
+   ========================================================= */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  letter-spacing: -0.015em;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+h1 {
+  font-size: 1.75rem;
+  font-weight: 800;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+h3 {
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+h4 {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+p {
+  line-height: 1.6;
+}
+
+/* Numbers and currency should be visually clear */
+.tabular-nums,
+.font-mono,
+input[type='number'],
+input[inputmode='numeric'] {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+}
+
+/* =========================================================
+   Form Elements
+   ========================================================= */
+
+input,
+select,
+textarea,
+button {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+input[type='text'],
+input[type='number'],
+input[type='email'],
+input[type='password'],
+input[type='search'],
+input[type='date'],
+input[type='time'],
+select,
+textarea {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+/* Remove ugly number input spinners */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+/* Consistent placeholder color */
+::placeholder {
+  color: #94a3b8;
+  opacity: 1;
+}
+
+/* =========================================================
+   Focus States (Accessible)
+   ========================================================= */
+
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid #059669;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: none;
+  border-color: #059669;
+  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
+}
+
+/* =========================================================
+   Buttons: Global Click & Hover Effects
+   ========================================================= */
+
+button {
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease,
+    box-shadow 150ms ease,
+    transform 90ms ease,
+    filter 90ms ease;
+}
+
+/* Hover: mouse upar aaye: pointer feedback */
+button:hover:not(:disabled) {
+  /* Per-button hover classes already exist, this is a safety net */
+}
+
+/* Active: click ke waqt: button dab jaye aur thoda dark ho */
+button:active:not(:disabled) {
+  transform: scale(0.94);
+  filter: brightness(0.95);
+}
+
+/* Disabled state */
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+button:disabled:active {
+  transform: none;
+  filter: none;
+}
+
+/* Focus: keyboard user ke liye */
+button:focus-visible {
+  outline: 2px solid #059669;
+  outline-offset: 2px;
+}
+
+/* =========================================================
+   Clickable Cards: Subtle Press Effect
+   ========================================================= */
+
+button[class*='card'],
+[role='button'] {
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease,
+    transform 90ms ease,
+    filter 90ms ease;
+}
+
+button[class*='card']:active,
+[role='button']:active {
+  transform: scale(0.99);
+}
+
+/* =========================================================
+   Scrollbars (Light, Subtle)
+   ========================================================= */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+  transition: background-color 150ms ease;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #94a3b8;
+  background-clip: content-box;
+}
+
+/* =========================================================
+   Selection & Links
+   ========================================================= */
+
+::selection {
+  background-color: #d1fae5;
+  color: #064e3b;
+}
+
+a {
+  color: #059669;
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* =========================================================
+   Utility Helpers
+   ========================================================= */
+
+img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+code,
+kbd,
+pre {
+  font-family:
+    'SF Mono',
+    'Monaco',
+    'Inconsolata',
+    'Roboto Mono',
+    'Courier New',
+    monospace;
+  font-size: 0.9em;
+}
+
+/* =========================================================
+   Print Styles
+   ========================================================= */
+
+@media print {
+  body {
+    background: #ffffff;
+    font-size: 11pt;
+  }
+
+  button,
+  .no-print,
+  header,
+  aside {
+    display: none !important;
+  }
+}
+
+/* =========================================================
+   Responsive Base Adjustments
+   ========================================================= */
+
+@media (max-width: 640px) {
+  body {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+  }
+}
+
+/* =========================================================
+   Motion Safety: Reduced Motion Users
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  button:active:not(:disabled) {
+    transform: none;
+    filter: none;
+  }
+}

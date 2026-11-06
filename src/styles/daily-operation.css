@@ -1,0 +1,268 @@
+/* Approved Daily Operation layout. Scoped to this screen; shared shell is untouched. */
+/* Remove nested shell padding and duplicate headings without hiding alerts. */
+:root .fuel-workspace header[hidden] { display: none !important; }
+:root .biz.daily-workspace-layout > main { max-width: none; width: 100%; padding: 20px; }
+:root .biz.daily-workspace-layout > main > .daily-shell-header > div[hidden] { display: none; }
+:root .biz.daily-workspace-layout > main > .daily-shell-header:not(:has(button)) { display: none; }
+:root .biz.daily-workspace-layout > main > .daily-shell-header:has(button) { padding: 0 0 12px; margin: 0 0 12px; }
+:root .fuel-daily-embedded { min-height: 0; background: transparent; }
+:root .biz .fuel-daily-embedded main { width: 100%; max-width: none; margin: 0; padding: 0; }
+:root .fuel-daily-embedded main > div { max-width: none; margin: 0; }
+:root .daily-operation-screen { min-width: 0; color: var(--ui-text); }
+:root .daily-operation-screen > * + * { margin-top: 16px; }
+:root .daily-operation-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: var(--ui-text);
+}
+:root .daily-operation-header > button { order: 2; margin-left: auto; }
+:root .daily-operation-header > div { min-width: 0; }
+:root .daily-operation-header h1 { margin: 0; font-size: 28px; line-height: 1.25; }
+:root .daily-operation-header p { margin: 6px 0 0; color: var(--ui-text-muted); }
+:root .daily-operation-header { flex-wrap: wrap; }
+:root .daily-current-info { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; }
+:root .daily-current-info > span { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; font-size: 14px; color: var(--ui-text-muted); }
+:root .daily-current-info svg { flex-shrink: 0; color: var(--ui-primary); }
+:root .daily-current-info strong { color: var(--ui-text); font-weight: 600; }
+:root .daily-readings {
+  container: daily-readings / inline-size;
+  min-width: 0;
+  background: var(--ui-surface);
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius-card);
+  box-shadow: var(--ui-shadow-card);
+  color: var(--ui-text);
+}
+:root .daily-readings-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 14px 16px;
+}
+:root .daily-readings-toolbar h2 { margin: 0; font-size: 22px; }
+:root .daily-readings-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 44px;
+  color: var(--ui-success);
+}
+:root .daily-readings-icon svg { width: 28px; height: 28px; stroke: var(--ui-success); }
+:root .daily-readings-filters { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+:root .daily-shift { display: flex; align-items: center; gap: 8px; }
+:root .daily-shift > svg { display: none; }
+:root .daily-shift select {
+  min-height: 44px;
+  width: auto;
+  max-width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--ui-input-border);
+  border-radius: var(--ui-radius-control);
+  background: var(--ui-surface);
+  color: var(--ui-text);
+  font-size: 15px;
+}
+:root .daily-fuel-tabs { display: flex; gap: 0; border: 1px solid var(--ui-border); border-radius: 8px; }
+:root .daily-fuel-tabs button {
+  min-height: 44px;
+  padding: 8px 20px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--ui-text);
+  font-size: 15px;
+}
+:root .daily-fuel-tabs button[aria-pressed="true"] { background: var(--ui-primary); color: white; }
+:root .daily-readings-content { padding: 0 12px; }
+:root .daily-readings-table { width: 100%; min-width: 0; table-layout: fixed; border-collapse: collapse; }
+:root .daily-readings-table th,
+:root .daily-readings-table td {
+  padding: 12px 6px;
+  border: 0;
+  border-bottom: 1px solid var(--ui-border);
+  font: 400 16px/1.4 var(--ui-font);
+  color: var(--ui-text);
+  vertical-align: middle;
+  white-space: nowrap;
+  overflow-wrap: normal;
+  font-variant-numeric: tabular-nums;
+}
+:root .daily-readings-table th { background: var(--ui-surface-muted); font-weight: 600; text-align: center; }
+:root .daily-readings-table th:nth-child(1) { width: auto; }
+:root .daily-readings-table th:nth-child(2) { width: 64px; }
+:root .daily-readings-table th:nth-child(3) { width: 128px; }
+:root .daily-readings-table th:nth-child(4) { width: 160px; }
+:root .daily-readings-table th:nth-child(5) { width: 82px; }
+:root .daily-readings-table th:nth-child(6) { width: 128px; }
+:root .daily-readings-table th:nth-child(7) { width: 72px; }
+:root .daily-readings-table th:nth-child(8) { width: 104px; }
+:root .daily-readings-table th:nth-child(9) { width: 156px; }
+:root .daily-readings-table td[data-label="Fuel"] > span,
+:root .daily-readings-table td[data-label="Status"] > span {
+  display: inline-flex; align-items: center; justify-content: center; gap: 4px;
+  width: max-content; max-width: none; padding: 4px 7px;
+  white-space: nowrap; overflow-wrap: normal; word-break: normal; font-size: 14px;
+}
+:root .daily-readings-table td[data-label="Status"] svg { flex-shrink: 0; width: 14px; height: 14px; }
+:root .daily-readings-table td[data-label="Fuel"] > span {
+  display: flex;
+  margin-inline: auto;
+}
+:root .daily-nozzle > span:last-child { white-space: nowrap; }
+:root .daily-readings-table td { text-align: center; }
+:root .daily-readings-table td > span.font-mono,
+:root .daily-opening > span { font: inherit; }
+:root .daily-nozzle > strong,
+:root .daily-nozzle > span:not(.sr-only) { display: block; }
+:root .daily-nozzle > span:not(.sr-only) { margin: 2px auto 0; }
+:root .daily-nozzle > span:last-child:not(.sr-only) { width: fit-content; }
+:root .daily-opening { display: flex; flex-wrap: nowrap; align-items: center; justify-content: center; gap: 2px; }
+:root .daily-closing { display: flex; flex-wrap: nowrap; align-items: center; justify-content: center; gap: 12px; padding: 3px; }
+:root .daily-readings .daily-closing input {
+  flex: 1 1 80px;
+  min-width: 0;
+  width: 100px;
+  max-width: 100%;
+  min-height: 44px;
+  padding: 8px;
+  border: 1px solid var(--ui-input-border);
+  border-radius: var(--ui-radius-control);
+  background: var(--ui-surface);
+  color: var(--ui-text);
+  font: 400 15px/1.5 var(--ui-font);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+:root .daily-closing input[aria-invalid="true"] { border-color: var(--ui-danger); }
+:root .daily-readings .daily-closing input::placeholder { color: #9aa7b8; opacity: 1; font-weight: 400; }
+:root .daily-closing .daily-save { flex: 0 0 auto; padding-inline: 8px; }
+:root .daily-save {
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid var(--ui-primary);
+  border-radius: var(--ui-radius-control);
+  background: var(--ui-primary);
+  color: white;
+  font-size: 15px;
+}
+:root .daily-save:disabled { background: var(--ui-primary-soft); border-color: var(--ui-border); color: var(--ui-text-muted); cursor: not-allowed; }
+:root .daily-reading-actions { display: flex; flex-wrap: nowrap; gap: 4px; align-items: center; justify-content: center; }
+:root .daily-icon-button,
+:root .daily-opening-edit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius-control);
+  background: var(--ui-surface);
+  color: var(--ui-text);
+}
+:root .daily-opening-edit { border-color: transparent; background: transparent; }
+:root .daily-icon-button svg,
+:root .daily-opening-edit svg { width: 19px; height: 19px; }
+:root .daily-icon-button:disabled { color: var(--ui-text-muted); background: var(--ui-surface-muted); opacity: .55; cursor: not-allowed; }
+:root .daily-icon-button.daily-cash-settled { background: var(--ui-success); border-color: var(--ui-success); color: white; opacity: 1; }
+:root .daily-icon-button.daily-cash-overpaid { background: var(--ui-danger); border-color: var(--ui-danger); color: white; opacity: 1; }
+:root .daily-readings .daily-reading-error { margin: 8px 0 0; color: var(--ui-danger); font-size: 14px; }
+:root .daily-readings-footer { padding: 14px 20px; font-size: 14px; color: var(--ui-text-muted); }
+:root .daily-readings-table .daily-readings-empty { padding: 32px 16px; text-align: center; color: var(--ui-text-muted); }
+:root .daily-operation-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 16px; }
+:root .daily-operation-card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius-card);
+  background: var(--ui-surface);
+  box-shadow: var(--ui-shadow-card);
+}
+:root .daily-operation-card > div > div:first-child { background: var(--ui-primary-soft); color: var(--ui-primary); }
+:root .daily-operation-card h3 { margin: 0; color: var(--ui-text); font-size: 18px; }
+:root .daily-operation-card p { margin: 4px 0 0; color: var(--ui-text-muted); font-size: 14px; }
+:root .daily-card-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: auto;
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid var(--ui-primary);
+  border-radius: var(--ui-radius-control);
+  color: var(--ui-primary);
+  background: var(--ui-surface);
+}
+:root .daily-card-button-primary { background: var(--ui-primary); color: white; }
+:root .daily-card-button:disabled { opacity: .6; cursor: not-allowed; }
+:root .daily-readings button:hover:not(:disabled),
+:root .daily-card-button:hover:not(:disabled) { background: var(--ui-primary-soft); color: var(--ui-primary); }
+:root .daily-save:hover:not(:disabled),
+:root .daily-fuel-tabs button[aria-pressed="true"]:hover,
+:root .daily-card-button-primary:hover:not(:disabled) { background: var(--ui-primary-hover); color: white; }
+:root .daily-readings :is(button, input, select):focus-visible,
+:root .daily-card-button:focus-visible { outline: 3px solid var(--ui-focus); outline-offset: 2px; }
+:root .fuel-workspace .daily-readings .daily-closing input:focus-visible { outline: 2px solid var(--ui-primary); outline-offset: 2px; box-shadow: none; }
+:root .daily-readings .daily-closing .daily-save { min-width: 52px; flex-shrink: 0; white-space: nowrap; box-shadow: none; }
+
+/* Respond to available content width, including the existing sidebar and zoom.
+   Every record stays in normal document flow; no clipping, row limit or inner scroller. */
+@container daily-readings (max-width: 959px) {
+  :root .daily-readings-table,
+  :root .daily-readings-table tbody { display: block; }
+  :root .daily-readings-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  :root .daily-readings-table tbody tr {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 12px;
+    padding: 14px 8px;
+    border-bottom: 1px solid var(--ui-border);
+  }
+  :root .daily-readings-table td { display: block; min-width: 0; padding: 0; border: 0; white-space: normal; overflow-wrap: anywhere; }
+  :root .daily-readings-table td[data-label="Closing Meter"] { grid-column: span 2; }
+  :root .daily-readings-table td[data-label="Actions"] { grid-column: span 2; }
+  :root .daily-readings-table td::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 6px;
+    color: var(--ui-text-muted);
+    font-size: 14px;
+    font-weight: 600;
+  }
+  :root .daily-readings-table td.daily-readings-empty { grid-column: 1 / -1; }
+}
+@container daily-readings (max-width: 600px) {
+  :root .daily-readings-table tbody tr { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  :root .daily-readings-table td[data-label="Closing Meter"],
+  :root .daily-readings-table td[data-label="Actions"] { grid-column: 1 / -1; }
+  :root .daily-readings-toolbar { padding: 16px; }
+  :root .daily-readings-filters { width: 100%; }
+  :root .daily-fuel-tabs { flex: 1; }
+  :root .daily-fuel-tabs button { flex: 1; padding-inline: 12px; }
+}
+@media (max-width: 480px) {
+  :root .daily-operation-header { flex-wrap: wrap; gap: 12px; }
+  :root .daily-operation-header > div { flex-basis: 100%; }
+  :root .daily-operation-header > button { margin-left: 0; }
+}
+@container daily-readings (max-width: 330px) {
+  :root .daily-readings-table tbody tr { grid-template-columns: minmax(0, 1fr); }
+  :root .daily-fuel-tabs button { padding-inline: 8px; }
+}

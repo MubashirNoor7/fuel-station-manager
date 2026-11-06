@@ -1,0 +1,70 @@
+{
+  "author": "Mubashir Noor",
+  "build": {
+    "appId": "com.fuelstation.manager",
+    "compression": "normal",
+    "copyright": "Copyright © 2026 Mubashir Noor",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "!**/*.bak",
+      "!**/*.bak-*",
+      "!node_modules/**/*"
+    ],
+    "productName": "FuelStation Manager",
+    "win": {
+      "signAndEditExecutable": true,
+      "signExecutable": false,
+      "target": [
+        "dir"
+      ]
+    }
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.14",
+    "@vitejs/plugin-react": "^5.0.4",
+    "lucide-react": "^0.546.0",
+    "react": "^19.0.1",
+    "react-dom": "^19.0.1"
+  },
+  "description": "Desktop app for a single petrol pump: daily nozzle readings, fuel stock and rates, customer credit (udhaar), expenses and history.",
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.14.0",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "autoprefixer": "^10.4.21",
+    "electron": "44.4.5",
+    "electron-builder": "^26.15.3",
+    "esbuild": "^0.25.0",
+    "prettier": "^3.9.9",
+    "tailwindcss": "^4.1.14",
+    "tsx": "^4.21.0",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.3"
+  },
+  "license": "MIT",
+  "main": "electron/main.cjs",
+  "name": "fuel-station-manager",
+  "productName": "FuelStation Manager",
+  "scripts": {
+    "build": "tsc --noEmit && vite build",
+    "dev": "vite --port=3000",
+    "dist": "npm run build && electron-builder",
+    "lint": "tsc --noEmit",
+    "start": "electron .",
+    "test": "tsx tests/calculations.test.ts",
+    "test:all": "npm test && npm run test:business && npm run test:readings && npm run test:dates",
+    "test:business": "node --test tests/business-store.test.cjs",
+    "test:dates": "node --test tests/date-safety.test.cjs tests/date-safety-extra.test.cjs",
+    "test:readings": "tsx --test tests/reading-ledger.test.ts && node --test tests/save-reliability.test.cjs tests/v63-stock-scoping.test.cjs"
+  },
+  "type": "module",
+  "version": "0.1.0",
+  "engines": {
+    "node": ">=24"
+  }
+}

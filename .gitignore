@@ -1,0 +1,14 @@
+node_modules/
+dist/
+build/
+release/
+coverage/
+*.sqlite
+*.db
+*.log
+*.bak
+*.bak-*
+.env*
+!.env.example
+.DS_Store
+test-output/

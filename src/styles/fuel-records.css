@@ -1,0 +1,171 @@
+/* Presentation only: petrol staff, customers and history. */
+@media screen {
+  :root .fuel-records-card,
+  :root .biz .fuel-customer-statement { min-width: 0; background: var(--ui-surface); border: 1px solid var(--ui-border); border-radius: 12px; overflow: hidden; box-shadow: var(--ui-shadow-card); }
+  :root .fuel-records-page-header { display: flex; align-items: center; gap: 16px; }
+  :root .fuel-records-toolbar { padding: 16px 20px; border-bottom: 1px solid var(--ui-border); }
+  :root .fuel-records :is(input:not([type=checkbox]):not([type=radio]), select, textarea) { font: 400 16px/1.5 var(--ui-font); color: var(--ui-text); background: white; border: 1px solid var(--ui-input-border); border-radius: 8px; padding: 10px 12px; min-height: 44px; height: auto; box-shadow: none; }
+  :root .fuel-records :is(input, select, textarea):focus-visible { outline: 2px solid var(--ui-primary); outline-offset: 2px; box-shadow: none; }
+  :root .fuel-records .fuel-records-search { position: relative; min-width: 0; }
+  :root .fuel-records .fuel-records-search > svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; pointer-events: none; color: var(--ui-text-muted); }
+  :root .fuel-workspace .fuel-records .fuel-records-search > input:not([type=checkbox]):not([type=radio]) { width: 100%; min-width: 0; padding-left: 44px; }
+  :root .fuel-records .fuel-records-page-header > .fuel-back-button { order: 2; margin-left: auto; }
+  :root .fuel-staff-screen .fuel-records-toolbar > div { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 16px; }
+  :root .fuel-staff-screen .fuel-records-toolbar select { width: 100%; }
+  :root .fuel-records .fuel-history-filter-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) auto; align-items: end; gap: 16px; }
+  :root .fuel-records .fuel-history-filter-grid > div { min-width: 0; }
+  :root .fuel-workspace .fuel-records .fuel-history-filter-grid select { padding-left: 44px; padding-right: 40px; }
+  :root .fuel-history-filters { padding: 20px; }
+  :root .fuel-history-toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+  :root .fuel-history-toolbar h2 { margin: 0; font-size: 20px; }
+  :root .fuel-history-search { flex: 0 1 360px; }
+  :root .fuel-records .fuel-history-results table { min-width: 0; width: 100%; table-layout: fixed; }
+  :root .fuel-records .fuel-history-results :is(th,td) { padding: 12px 8px; font-size: 14px; white-space: normal; overflow-wrap: anywhere; }
+  :root .fuel-records .fuel-history-results :is(th,td):last-child { width: 152px; }
+  :root .fuel-records .fuel-history-results td > span { font-size: 14px; padding: 4px 6px; }
+  :root .fuel-records .fuel-history-results td:last-child > div { display: flex; flex-wrap: nowrap; min-width: 0; gap: 4px; justify-content: flex-start; }
+  :root .fuel-records .fuel-history-results td button,
+  :root .fuel-records .fuel-staff-row > div:last-child button { display: inline-flex; flex: 0 0 44px; align-items: center; justify-content: center; width: 44px; height: 44px; min-height: 44px; padding: 10px; font: 600 14px/1.4 var(--ui-font); border: 1px solid var(--ui-border); border-radius: 8px; background: white; color: var(--ui-primary); box-shadow: none; transform: none; white-space: nowrap; }
+  :root .fuel-records .fuel-history-results td button:hover:not(:disabled),
+  :root .fuel-records .fuel-staff-row > div:last-child button:hover:not(:disabled) { background: var(--ui-primary-soft); color: var(--ui-primary-hover); }
+  :root .fuel-records .fuel-staff-row > div:last-child button[title=Deactivate] { color: var(--ui-danger); border-color: #f4cbd0; }
+  :root .fuel-records .fuel-staff-row > div:last-child button[title=Deactivate]:hover { background: var(--ui-danger-soft); }
+  :root .fuel-records .fuel-staff-scroll { overflow-x: auto; }
+  :root .fuel-records.fuel-staff-screen :is(.fuel-staff-header, .fuel-staff-row) { display: grid; grid-template-columns: 64px minmax(0,1.4fr) minmax(0,1fr) minmax(0,1fr) 86px 100px 140px; min-width: 0; gap: 10px; padding: 14px 16px; align-items: center; border-bottom: 1px solid var(--ui-border); }
+  :root .fuel-records.fuel-staff-screen .fuel-staff-header { color: var(--ui-text-muted); background: var(--ui-surface-muted); text-transform: none; letter-spacing: normal; font-size: 14px; font-weight: 600; }
+  :root .fuel-records.fuel-staff-screen .fuel-staff-header > span:last-child { text-align: left; }
+  :root .fuel-records.fuel-staff-screen .fuel-staff-row .lg\:hidden { display: none; }
+  :root .fuel-records.fuel-staff-screen .fuel-staff-row > div:last-child { flex-wrap: nowrap; justify-content: flex-start; gap: 4px; }
+  :root .fuel-records.fuel-staff-screen .fuel-staff-row > div { min-width: 0; gap: 8px; }
+  :root .fuel-records.fuel-staff-screen .fuel-staff-row .rounded-full { font-size: 14px; padding: 4px 6px; white-space: normal; }
+  :root .fuel-staff-row .h-12 { width: 36px; height: 36px; font-size: 14px; }
+  :root .fuel-staff-row .text-lg { font-size: 16px; }
+  :root .fuel-staff-row .rounded-full { padding-left: 8px; padding-right: 8px; }
+  :root .fuel-records .fixed > div { border-width: 1px; border-radius: 12px; }
+  :root .fuel-records .fixed :is(label, .uppercase) { text-transform: none; letter-spacing: normal; font-weight: 600; }
+  :root .fuel-records .fixed textarea { min-height: 88px; }
+  :root .fuel-records .fixed .gap-5 { gap: 16px; }
+  :root .fuel-records .fixed button { min-height: 44px; box-shadow: none; transform: none; }
+  :root .fuel-records.fuel-staff-screen .fixed > div { width: min(760px,100%); background: white; }
+  :root .fuel-records.fuel-staff-screen .fixed > div > div:first-child { padding: 16px 20px; background: var(--ui-surface-muted); }
+  :root .fuel-records.fuel-staff-screen .fixed .h-14:has(svg) { width: 40px; height: 40px; }
+  :root .fuel-records.fuel-staff-screen .fixed :is(.mb-6,.mt-6) { margin-block: 16px; }
+  :root .fuel-records.fuel-staff-screen .fixed .pt-6 { padding-top: 16px; }
+  :root .fuel-records.fuel-staff-screen .fixed label { margin-bottom: 6px; font-size: 16px; }
+  :root .biz .fuel-customers-screen { display: grid; gap: 20px; min-width: 0; font-family: var(--ui-font); }
+  :root .biz .fuel-customer-heading { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
+  :root .biz .fuel-customer-heading :is(h2,h3) { flex: 1 1 240px; margin: 0; font-size: 28px; line-height: 1.25; letter-spacing: normal; }
+  :root .biz .fuel-customers-screen button { min-height: 44px; box-shadow: none; transform: none; }
+  :root .biz .fuel-customers-screen .btn { padding: 10px 16px; border: 1px solid var(--ui-border); border-radius: 8px; color: var(--ui-text); background: white; }
+  :root .biz .fuel-customers-screen .btn:hover:not(:disabled) { background: var(--ui-primary-soft); }
+  :root .biz .fuel-customers-screen .btn.primary { color: white; background: var(--ui-primary); border-color: var(--ui-primary); }
+  :root .biz .fuel-customers-screen .btn.primary:hover:not(:disabled) { background: var(--ui-primary-hover); }
+  :root .biz .fuel-customer-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 16px; }
+  :root .biz .fuel-customer-card { display: flex; align-items: center; gap: 16px; width: 100%; padding: 20px; text-align: left; border: 1px solid var(--ui-border); border-radius: 12px; background: white; color: var(--ui-text); }
+  :root .biz .fuel-customer-card:hover:not(:disabled) { background: var(--ui-surface-muted); border-color: var(--ui-primary); }
+  :root .biz .fuel-customer-avatar { box-sizing: content-box; flex-shrink: 0; padding: 12px; border-radius: 50%; background: var(--ui-primary-soft); color: var(--ui-primary); }
+  :root .biz .fuel-customer-card-body { display: grid; gap: 8px; flex: 1; min-width: 0; }
+  :root .biz .fuel-customer-card-body strong { font-size: 18px; overflow-wrap: anywhere; }
+  :root .biz .fuel-customer-card-body > span { font-size: 16px; color: var(--ui-text-muted); }
+  :root .biz .fuel-customer-card-body small { font-size: 14px; color: var(--ui-text-muted); }
+  :root .biz .fuel-customer-card-body .fuel-customer-tag { justify-self: start; border-radius: 6px; padding: 3px 8px; background: var(--ui-primary-soft); color: var(--ui-primary); }
+  :root .biz .fuel-customer-totals { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; }
+  :root .biz .fuel-customer-totals > div { padding: 20px; border: 1px solid var(--ui-border); border-radius: 12px; background: white; display: grid; gap: 10px; }
+  :root .biz .fuel-customer-totals svg { box-sizing: content-box; padding: 8px; border-radius: 8px; background: var(--ui-primary-soft); color: var(--ui-primary); }
+  :root .biz .fuel-customer-totals > div:nth-child(2) svg { color: var(--ui-success); background: var(--ui-success-soft); }
+  :root .biz .fuel-customer-totals > div:nth-child(3) svg { color: var(--ui-danger); background: var(--ui-danger-soft); }
+  :root .biz .fuel-customer-totals strong { font-size: 26px; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+  :root .biz .fuel-customer-statement { padding: 20px; }
+  :root .biz .fuel-customer-statement table { min-width: 560px; width: 100%; border-collapse: collapse; }
+  :root .biz .fuel-customer-statement :is(th,td) { padding: 12px 16px; border-bottom: 1px solid var(--ui-border); font-size: 16px; }
+  :root .biz .fuel-customer-statement th { background: var(--ui-surface-muted); color: var(--ui-text-muted); text-transform: none; letter-spacing: normal; }
+  :root .biz .fuel-customer-statement :is(th,td):nth-child(3) { text-align: right; font-variant-numeric: tabular-nums; }
+  :root .biz .fuel-customer-dialog { margin: 0; inset: 0; padding: 16px; background: rgb(15 23 42 / .5); }
+  :root .biz .fuel-customer-dialog > .dialog { width: min(680px,100%); max-height: calc(100dvh - 32px); overflow-y: auto; border: 1px solid var(--ui-border); border-radius: 12px; padding: 24px; background: white; color: var(--ui-text); font-family: var(--ui-font); box-shadow: 0 20px 60px #10213d26; }
+  :root .biz .fuel-customer-dialog .section-heading { padding-bottom: 16px; margin-bottom: 16px; border-bottom: 1px solid var(--ui-border); }
+  :root .biz .fuel-customer-dialog .section-heading h2 { color: var(--ui-text) !important; font-size: 22px; }
+  :root .biz .fuel-customer-dialog .form-grid { gap: 16px; }
+  :root .biz .fuel-customer-dialog .biz-field { font-size: 16px; color: var(--ui-text-muted); }
+  :root .biz .fuel-customer-dialog :is(input:not([type=checkbox]),select,textarea) { font: 400 16px/1.5 var(--ui-font); min-height: 44px; padding: 10px 12px; border: 1px solid var(--ui-input-border); border-radius: 8px; background: white; color: var(--ui-text); }
+  :root .biz .fuel-customer-dialog label:has(> input[type=checkbox]) { display: flex; align-items: center; gap: 8px; min-height: 44px; grid-column: 1 / -1; }
+  :root .biz .fuel-customer-dialog input[type=checkbox] { width: 20px; height: 20px; min-height: 20px; margin: 0; accent-color: var(--ui-primary); }
+  :root .biz .fuel-customer-dialog button { min-height: 44px; padding: 10px 16px; border-radius: 8px; border: 1px solid var(--ui-border); background: white; color: var(--ui-text); box-shadow: none; transform: none; }
+  :root .biz .fuel-customer-dialog form > button.primary { display: block; margin: 20px 0 0 auto; background: var(--ui-primary); color: white; border-color: var(--ui-primary); }
+  :root .biz .fuel-customer-dialog form > button.primary:hover:not(:disabled) { background: var(--ui-primary-hover); }
+  :root .biz .fuel-customer-dialog :is(input,select,textarea,button):focus-visible { outline: 2px solid var(--ui-primary); outline-offset: 2px; }
+  :root .biz .fuel-customer-dialog .biz-field > span,
+  :root .biz .fuel-customers-screen .biz-field > span { display: block; margin-bottom: 8px; }
+  :root .biz .fuel-customers-screen :is(button,input):focus-visible { outline: 2px solid var(--ui-primary); outline-offset: 2px; }
+  /* Fixed account context first; editable fields follow without empty grid cells. */
+  :root .biz .fuel-customer-dialog > .fuel-payment-dialog { width: min(480px,100%); padding: 24px; }
+  :root .biz .fuel-payment-dialog .form-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; margin: 0; }
+  :root .biz .fuel-payment-dialog .biz-field { margin: 0; min-width: 0; }
+  :root .biz .fuel-payment-dialog .biz-field:first-child { order: 0; background: var(--ui-surface-muted); padding: 12px; border-radius: 8px; }
+  :root .biz .fuel-payment-dialog .biz-field:has(> strong) { order: 1; background: var(--ui-surface-muted); padding: 12px; border-radius: 8px; }
+  :root .biz .fuel-payment-dialog .biz-field:has(input[type=date]) { order: 2; }
+  :root .biz .fuel-payment-dialog .biz-field:has(input[type=number]) { order: 3; }
+  :root .biz .fuel-payment-dialog .biz-field:last-child { order: 4; grid-column: 1 / -1; }
+  :root .biz .fuel-payment-dialog .biz-field > span { font-size: 14px; font-weight: 500; margin-bottom: 6px; color: var(--ui-text-muted); }
+  :root .biz .fuel-payment-dialog .biz-field > :is(strong,div) { display: block; padding: 0 !important; color: var(--ui-text); font-size: 16px; line-height: 1.5; overflow-wrap: anywhere; }
+  :root .biz .fuel-payment-dialog form > button.primary { width: 100%; margin-top: 20px; }
+  :root .biz .fuel-customer-dialog input[type=date] { color-scheme: light; font-family: var(--ui-font); font-variant-numeric: tabular-nums; }
+  :root .biz .fuel-customer-dialog input[type=date]::-webkit-calendar-picker-indicator { width: 20px; height: 20px; padding: 2px; opacity: .65; cursor: pointer; }
+  :root .biz .fuel-customer-heading > .fuel-customer-list-link { flex-basis: 100%; min-height: 24px; padding: 0; border: 0; background: transparent; color: var(--ui-text-muted); text-align: left; font-size: 14px; font-weight: 500; }
+  :root .biz .fuel-customer-heading > .fuel-customer-list-link:hover { color: var(--ui-primary); text-decoration: underline; }
+  :root .biz .fuel-customer-heading h2 { font-size: 26px; font-weight: 650; line-height: 1.3; }
+  :root .fuel-records.fuel-staff-screen .fuel-records-search { display: flex; align-items: center; gap: 12px; padding: 0 14px; border: 1px solid var(--ui-input-border); border-radius: 8px; background: white; }
+  :root .fuel-records.fuel-staff-screen .fuel-records-search > svg { position: static; transform: none; flex: 0 0 20px; width: 20px; height: 20px; margin: 0; }
+  :root .fuel-workspace .fuel-records.fuel-staff-screen .fuel-records-search > input:not([type=checkbox]):not([type=radio]) { padding: 10px 0; border: 0; border-radius: 0; background: transparent; }
+  :root .fuel-records.fuel-staff-screen .fuel-records-search:focus-within { outline: 2px solid var(--ui-primary); outline-offset: 2px; }
+  :root .fuel-records.fuel-staff-screen .fuel-records-search > input:focus-visible { outline: none; }
+  :root .fuel-records.fuel-staff-screen .fixed form button { width: auto; flex-shrink: 0; padding: 10px 18px; height: auto; white-space: nowrap; }
+  :root .fuel-records.fuel-staff-screen .fixed form button[type=submit] { min-width: 140px; }
+  :root .fuel-records.fuel-staff-screen .fixed form button svg { flex-shrink: 0; width: 20px; height: 20px; }
+  :root .fuel-records.fuel-staff-screen .fuel-staff-row .h-12 { background: var(--ui-primary-soft); color: var(--ui-primary); width: 32px; height: 32px; border-radius: 8px; font-size: 12px; }
+  @media (max-width: 1000px) {
+    :root .fuel-records .fuel-history-filter-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  }
+  @media (max-width: 900px) {
+    :root .fuel-records.fuel-staff-screen .fuel-staff-header { display: none; }
+    :root .fuel-records.fuel-staff-screen .fuel-staff-row { grid-template-columns: repeat(2,minmax(0,1fr)); }
+    :root .fuel-records.fuel-staff-screen .fuel-staff-row .lg\:hidden { display: block; }
+  }
+  @media (max-width: 640px) {
+    :root .fuel-staff-screen .fuel-records-toolbar > div { grid-template-columns: minmax(0,1fr); }
+    :root .biz .fuel-customer-dialog .form-grid { grid-template-columns: minmax(0,1fr); }
+    :root .fuel-records .fuel-history-filter-grid,
+    :root .biz .fuel-customer-totals { grid-template-columns: minmax(0,1fr); }
+    :root .fuel-history-search { flex-basis: 100%; }
+    :root .fuel-records-toolbar, :root .fuel-history-filters, :root .biz .fuel-customer-statement { padding: 16px; }
+    :root .biz .fuel-customer-heading :is(h2,h3) { font-size: 24px; }
+    :root .biz .fuel-customer-heading h2 { flex-basis: calc(100% - 110px); }
+  }
+}
+
+@media screen {
+  :root .biz .fuel-customers-screen :is(h2,h3),
+  :root .biz .fuel-customer-dialog h2 { font-family: var(--ui-font); font-weight: 700; letter-spacing: normal; }
+  :root .biz .fuel-customers-screen .fuel-customer-heading :is(h2,h3) { font-size: 28px; line-height: 1.25; }
+  :root .biz .fuel-customer-heading { gap: 12px; align-items: center; }
+  :root .biz .fuel-customer-heading > .fuel-customer-list-link { display: flex; align-items: center; gap: 4px; padding: 0; margin: 0; min-height: 28px; font: 500 14px/1.4 var(--ui-font); }
+  :root .biz .fuel-customer-heading > :is(.fuel-customer-credit,.fuel-customer-pay) { display: inline-flex; align-items: center; justify-content: center; width: 172px; min-height: 46px; padding: 10px 14px; font: 600 16px/1.4 var(--ui-font); white-space: nowrap; }
+  :root .biz .fuel-customer-heading > .btn.fuel-customer-credit { color: #a42638; background: #fff1f2; border-color: #f3c5cc; }
+  :root .biz .fuel-customer-heading > .btn.fuel-customer-credit:hover:not(:disabled) { color: #8c1d2e; background: #ffe4e8; }
+  :root .biz .fuel-customer-heading > .btn.primary.fuel-customer-pay { color: white; background: #187344; border-color: #187344; }
+  :root .biz .fuel-customer-heading > .btn.primary.fuel-customer-pay:hover:not(:disabled) { background: #125c35; border-color: #125c35; }
+  :root .fuel-records.fuel-staff-screen .fuel-records-search > svg { translate: none; transform: none; position: static; align-self: center; display: block; flex-shrink: 0; }
+  :root .biz .fuel-customer-dialog > .fuel-customer-editor { width: min(560px,100%); padding: 24px; }
+  :root .biz .fuel-customer-editor .form-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; margin: 0; align-items: start; }
+  :root .biz .fuel-customer-editor .biz-field { margin: 0; min-width: 0; }
+  :root .biz .fuel-customer-editor .biz-field > span { color: var(--ui-text-muted); font-size: 14px; font-weight: 600; line-height: 1.4; min-height: 20px; }
+  :root .biz .fuel-customer-editor .biz-field:has(> div) { grid-column: 1 / -1; order: -1; display: flex !important; flex-direction: row; align-items: center; gap: 12px; padding: 10px 12px; background: var(--ui-surface-muted); border: 1px solid var(--ui-border); border-radius: 8px; }
+  :root .biz .fuel-customer-editor .biz-field:has(> div) > span { margin: 0; min-height: 0; }
+  :root .biz .fuel-customer-editor .biz-field > div { padding: 0 !important; color: var(--ui-text); }
+  :root .biz .fuel-customer-editor .biz-field:first-child { grid-column: 1 / -1; }
+  :root .biz .fuel-customer-editor label:has(> input[type=checkbox]) { min-height: 32px; margin: 0; }
+  :root .biz .fuel-customer-editor form > button.primary { width: 100%; margin-top: 16px; }
+  @media (max-width: 640px) {
+    :root .biz .fuel-customer-editor .form-grid { grid-template-columns: minmax(0,1fr); }
+    :root .biz .fuel-customer-heading > :is(.fuel-customer-credit,.fuel-customer-pay) { flex: 1 1 150px; }
+  }
+}
