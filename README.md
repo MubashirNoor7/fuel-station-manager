@@ -40,6 +40,20 @@ credit (*udhaar*), daily expenses, and the end-of-day cash check.
 - **Dates** — all dates use the Asia/Karachi timezone, so a day never flips at
   midnight UTC.
 
+## Screenshots
+
+![Dashboard](docs/screenshots/dashboard.png)
+
+*Dashboard — the daily totals at a glance.*
+
+![Daily Operation](docs/screenshots/daily-operation.png)
+
+*Daily Operation — enter nozzle readings per shift.*
+
+![Customers](docs/screenshots/customers.png)
+
+*Customers and credit — balances, credit given and repayments.*
+
 ## Install (Windows)
 
 Download `FuelStation-Manager-Setup-<version>.exe` from the
