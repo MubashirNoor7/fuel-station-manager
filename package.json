@@ -19,9 +19,15 @@
       "signAndEditExecutable": true,
       "signExecutable": false,
       "target": [
-        "dir"
+        "nsis"
       ]
-    }
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": false
+    },
+    "artifactName": "FuelStation-Manager-Setup-${version}.${ext}"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.14",
@@ -57,14 +63,33 @@
     "lint": "tsc --noEmit",
     "start": "electron .",
     "test": "tsx tests/calculations.test.ts",
-    "test:all": "npm test && npm run test:business && npm run test:readings && npm run test:dates",
+    "test:all": "npm test && npm run test:business && npm run test:readings && npm run test:dates && npm run test:export",
     "test:business": "node --test tests/business-store.test.cjs",
     "test:dates": "node --test tests/date-safety.test.cjs tests/date-safety-extra.test.cjs",
-    "test:readings": "tsx --test tests/reading-ledger.test.ts && node --test tests/save-reliability.test.cjs tests/v63-stock-scoping.test.cjs"
+    "test:readings": "tsx --test tests/reading-ledger.test.ts && node --test tests/save-reliability.test.cjs tests/v63-stock-scoping.test.cjs",
+    "test:export": "node --test tests/csv.test.cjs tests/backup.test.cjs"
   },
   "type": "module",
   "version": "0.1.0",
   "engines": {
     "node": ">=24"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MubashirNoor7/fuel-station-manager.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MubashirNoor7/fuel-station-manager/issues"
+  },
+  "homepage": "https://github.com/MubashirNoor7/fuel-station-manager#readme",
+  "keywords": [
+    "electron",
+    "react",
+    "sqlite",
+    "petrol-pump",
+    "fuel-station",
+    "point-of-sale",
+    "pakistan",
+    "desktop-app"
+  ]
 }
