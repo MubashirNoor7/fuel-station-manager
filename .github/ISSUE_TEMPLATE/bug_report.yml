@@ -1,0 +1,29 @@
+name: Bug report
+description: Something in the app calculates or behaves wrongly
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What did you do, what did you expect, and what happened instead?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: "1. Open Daily Operation\n2. Enter closing reading ...\n3. ..."
+  - type: input
+    id: version
+    attributes:
+      label: App version
+      placeholder: "0.1.0"
+  - type: dropdown
+    id: money
+    attributes:
+      label: Does this affect money, stock or customer balances?
+      options: ["No", "Yes", "Not sure"]
+  - type: markdown
+    attributes:
+      value: "Do not attach your real database or customer data. Describe the entries instead."
