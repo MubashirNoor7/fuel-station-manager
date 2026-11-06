@@ -1,0 +1,28 @@
+name: Release
+
+# Push a tag such as v0.1.1 to build the Windows installer and attach it to a
+# GitHub Release:  git tag v0.1.1 && git push origin v0.1.1
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run test:all
+      - run: npm run build
+      - run: npx electron-builder --publish never
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: release/*.exe
+          generate_release_notes: true

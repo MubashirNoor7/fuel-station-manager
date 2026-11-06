@@ -1,10 +1,37 @@
-const { app, BrowserWindow, Menu } = require("electron");
+const { app, BrowserWindow, Menu, dialog } = require("electron");
 const path = require("path");
+const { backupDatabase } = require("./backup.cjs");
 
 // Ensure single instance lock for POS stability
 const gotTheLock = app.requestSingleInstanceLock();
 
 let mainWindow = null;
+let store = null;
+
+// Saves a consistent copy of the database wherever the owner chooses
+// (for example a USB drive). Without this, the only copy of the books is
+// the one file on this computer.
+async function backupNow() {
+  if (!store) return;
+  const day = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Karachi" }).format(new Date());
+  const choice = await dialog.showSaveDialog(mainWindow, {
+    title: "Back up database",
+    defaultPath: `FuelStation-backup-${day}.sqlite`,
+    filters: [{ name: "SQLite database", extensions: ["sqlite"] }],
+  });
+  if (choice.canceled || !choice.filePath) return;
+  try {
+    backupDatabase(store.db, choice.filePath);
+    store.audit("BACKUP", { file: path.basename(choice.filePath) });
+    await dialog.showMessageBox(mainWindow, {
+      type: "info",
+      message: "Backup saved.",
+      detail: choice.filePath,
+    });
+  } catch (error) {
+    dialog.showErrorBox("Backup failed", error.message || String(error));
+  }
+}
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -51,6 +78,8 @@ function createWindow() {
     {
       label: "File",
       submenu: [
+        { label: "Back up database…", accelerator: "CmdOrCtrl+B", click: () => backupNow() },
+        { type: "separator" },
         { label: "Exit", accelerator: "Alt+F4", click: () => app.quit() },
       ],
     },
@@ -59,7 +88,8 @@ function createWindow() {
       submenu: [
         { role: "reload", accelerator: "CmdOrCtrl+R" },
         { role: "forceReload", accelerator: "CmdOrCtrl+Shift+R" },
-        { role: "toggleDevTools", accelerator: "F12" },
+        // Developer tools only when running from source, not in the packaged app.
+        ...(app.isPackaged ? [] : [{ role: "toggleDevTools", accelerator: "F12" }]),
         { type: "separator" },
         { role: "resetZoom" },
         { role: "zoomIn" },
@@ -89,7 +119,7 @@ if (!gotTheLock) {
   });
 
   app.whenReady().then(() => {
-    require("./business-ipc.cjs").installBusinessIpc(() => mainWindow);
+    store = require("./business-ipc.cjs").installBusinessIpc(() => mainWindow);
     createWindow();
 
     app.on("activate", () => {

@@ -1,6 +1,7 @@
 const fs = require("node:fs");
 const { dialog, BrowserWindow } = require("electron");
 const fuel = require("./fuel-workspace.cjs");
+const { toCsv } = require("./csv.cjs");
 async function handleFuelRequest(store, p, window) {
   if (p.type === "fuelDraft") {
     const prefix = `fuel-draft:owner:`;
@@ -56,8 +57,7 @@ async function handleFuelRequest(store, p, window) {
   if (p.format === "csv") {
     const choice = await dialog.showSaveDialog(window, { title: "Save report", defaultPath: `FuelStation-${p.view}-${p.day || p.to}.csv`, filters: [{ name: "CSV", extensions: ["csv"] }] });
     if (choice.canceled) return null;
-    const cell = (v) => { let s = String(v ?? ""); if (/^[=+\-@\t\r]/.test(s)) s = "'" + s; return '"' + s.replaceAll('"', '""') + '"'; };
-    fs.writeFileSync(choice.filePath, "\ufeff" + [headers, ...entries].map((r) => r.map(cell).join(",")).join("\r\n"), { flag: "wx" });
+    fs.writeFileSync(choice.filePath, toCsv([headers, ...entries]), "utf8");
     return "Report saved.";
   }
   if (p.format !== "print") throw Error("Choose Print or CSV.");

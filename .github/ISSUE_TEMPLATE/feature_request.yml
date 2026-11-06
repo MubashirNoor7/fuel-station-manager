@@ -1,0 +1,14 @@
+name: Feature request
+description: Suggest an improvement for pump owners or operators
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem at the pump does this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like the app to do?

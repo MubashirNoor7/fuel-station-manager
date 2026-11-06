@@ -2,6 +2,7 @@ const { ipcMain, dialog, app, BrowserWindow } = require("electron");
 const fs = require("node:fs");
 const path = require("node:path");
 const { BusinessStore } = require("./business-store.cjs");
+const { toCsv } = require("./csv.cjs");
 
 function installBusinessIpc(getWindow) {
   const directory = path.join(app.getPath("userData"), "business-data");
@@ -83,10 +84,6 @@ function installBusinessIpc(getWindow) {
               filters: [{ name: "CSV", extensions: ["csv"] }],
             });
             if (result.canceled) return { ok: true, data: null };
-            const csv = (value) =>
-              `"${String(value ?? "")
-                .replace(/^[=+\-@\t\r]/, (c) => `'${c}`)
-                .replaceAll('"', '""')}"`;
             const rows = [
               [
                 "Date",
@@ -125,11 +122,7 @@ function installBusinessIpc(getWindow) {
                 r.data.rate,
               ]),
             ];
-            fs.writeFileSync(
-              result.filePath,
-              "\uFEFF" + rows.map((row) => row.map(csv).join(",")).join("\r\n"),
-              { encoding: "utf8", flag: "wx" },
-            );
+            fs.writeFileSync(result.filePath, toCsv(rows), "utf8");
             data = "Complete date-range report exported.";
           } else {
             const escape = (value) =>
