@@ -12,6 +12,7 @@ import {
   FuelType,
 } from '../types';
 import { formatCurrency, getPakistanLocalDate } from '../logic/calculations';
+import { standaloneTotalForDay, type StandaloneExpense } from '../logic/dayTotals';
 import { calculateFuelStock } from '../logic/fuelStock';
 import type { SaveResult } from '../logic/saveResult';
 import {
@@ -35,6 +36,10 @@ interface DashboardScreenProps {
   employees: Employee[];
   operations: DailyOperation[];
   stockRecords: FuelStockDayRecord[];
+  /** Expenses entered on the Expenses page (standalone ledger entries, issue #17). */
+  standaloneExpenses?: StandaloneExpense[];
+  /** Today's credit given from the ledger (undefined = not loaded yet). */
+  todayCredit?: number;
   onNavigateToOperation?: () => void;
   onNavigateToFuelStock?: () => void;
   onNavigateToHistory?: () => void;
@@ -57,6 +62,8 @@ export function DashboardScreen({
   employees,
   operations,
   stockRecords,
+  standaloneExpenses,
+  todayCredit,
   onNavigateToOperation,
   onNavigateToFuelStock,
   onNavigateToHistory,
@@ -80,10 +87,13 @@ export function DashboardScreen({
         ),
     0,
   );
-  const todayExpenses = todayOps.reduce(
-    (sum, operation) => sum + Number(operation.totalExpenses || 0),
-    0,
-  );
+  // Issue #17: Expenses-page entries are standalone ledger documents, not
+  // part of operation.totalExpenses — add them so Expected cash is not overstated.
+  const todayExpenses =
+    todayOps.reduce(
+      (sum, operation) => sum + Number(operation.totalExpenses || 0),
+      0,
+    ) + standaloneTotalForDay(standaloneExpenses, todayIso);
   const todayNet = todayFuelSales - todayExpenses;
 
   const petrolQuantity = todayOps.reduce(
@@ -391,13 +401,13 @@ export function DashboardScreen({
           <h2 className="fuel-section-title"><Wallet size={20} aria-hidden="true" />Day Summary</h2>
           {(() => {
             const grossSales = todayFuelSales;
-            // Include both historical and newly entered expenses.
-            const staffExpenses = todayOps.reduce(
-              (s, o) => s + (o.expenses || []).reduce((ss, e) => ss + (Number(e.amount) || 0), 0),
-              0
-            );
-            // Credit comes from the database ledger, not inferred from cached totals.
-            const creditGiven = todayOps.reduce((sum, o) => sum + (o.udhaarTotal || 0), 0);
+            // Same corrected total as the top card: operation-embedded
+            // expenses plus standalone Expenses-page entries (issue #17).
+            const staffExpenses = todayExpenses;
+            // Credit comes from the database ledger (App loads today's CREDIT
+            // total), not from the operation's cached total, which goes stale
+            // in-session when credit is added on another tab.
+            const creditGiven = todayCredit ?? todayOps.reduce((sum, o) => sum + (o.udhaarTotal || 0), 0);
             const expectedNet = grossSales - staffExpenses - creditGiven;
             const cashHandedOver = todayOps.reduce(
               (s, o) => s + (o.cashDeposits || []).reduce((ss, d) => ss + (Number(d.amount) || 0), 0),

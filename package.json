@@ -30,7 +30,7 @@
     "artifactName": "FuelStation-Manager-Setup-${version}.${ext}"
   },
   "dependencies": {
-    "@tailwindcss/vite": "^4.3.4",
+    "@tailwindcss/vite": "^4.1.14",
     "@vitejs/plugin-react": "^5.0.4",
     "lucide-react": "^0.546.0",
     "react": "^19.0.1",
@@ -62,7 +62,7 @@
     "dist": "npm run build && electron-builder",
     "lint": "tsc --noEmit",
     "start": "electron .",
-    "test": "tsx tests/calculations.test.ts",
+    "test": "tsx tests/calculations.test.ts && tsx --test tests/day-totals.test.ts",
     "test:all": "npm test && npm run test:business && npm run test:readings && npm run test:dates && npm run test:export",
     "test:business": "node --test tests/business-store.test.cjs",
     "test:dates": "node --test tests/date-safety.test.cjs tests/date-safety-extra.test.cjs",

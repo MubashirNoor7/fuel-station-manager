@@ -13,6 +13,7 @@ import { AlertTriangle, RotateCcw, CalendarDays, UserCog, X } from 'lucide-react
 import type { SaveResult } from './logic/saveResult';
 import './styles/fuel-workspace.css';
 import { updateNozzleMeters } from './logic/readingLedger';
+import { standaloneExpensesFromRows, summaryTotalForKind, type StandaloneExpense } from './logic/dayTotals';
 
 
 type PetrolSqliteState = {
@@ -162,6 +163,44 @@ export function App() {
       // Customer list stays as-is; the Customers page loads its own copy.
     }
   }, []);
+  // Expenses entered on the Expenses page (issue #17): standalone EXPENSE
+  // documents in the ledger. Dashboard/History totals add these on top of
+  // operation-embedded expenses; the ledger is the single source of truth.
+  const [standaloneExpenses, setStandaloneExpenses] = useState<StandaloneExpense[]>([]);
+  const loadStandaloneExpenses = useCallback(async () => {
+    try {
+      const to = getPakistanLocalDate();
+      const [y, m, d] = to.split('-').map(Number);
+      const from = new Date(Date.UTC(y, m - 1, d - 89)).toISOString().slice(0, 10);
+      const all: any[] = [];
+      for (let page = 0; page < 10; page++) {
+        const snap = (await databaseRequest({ type: 'snapshot', kinds: ['EXPENSE'], from, to, page })) as { rows?: any[] };
+        const rows = snap.rows || [];
+        all.push(...rows);
+        if (rows.length < 100) break;
+      }
+      setStandaloneExpenses(standaloneExpensesFromRows(all));
+    } catch {
+      // Totals fall back to operation-only; the pages still work.
+    }
+  }, []);
+  // Bumps whenever the Customers tab is opened, so the Customers page
+  // reloads its list instead of showing stale balances (Bilal Rs. 0 case).
+  const [customersRefreshSignal, setCustomersRefreshSignal] = useState(0);
+  // Today's credit given, read from the ledger (issue #17 follow-up): the
+  // operation's cached udhaarTotal goes stale in-session when credit is added
+  // on the Daily Operation tab, so the Dashboard must not trust it.
+  const [todayCredit, setTodayCredit] = useState<number | undefined>(undefined);
+  const loadTodayCredit = useCallback(async () => {
+    try {
+      const today = getPakistanLocalDate();
+      const snap = (await databaseRequest({ type: 'snapshot', kinds: ['CREDIT'], from: today, to: today })) as { summary?: Array<{ kind: string; amount: number }> };
+      setTodayCredit(summaryTotalForKind(snap.summary, 'CREDIT'));
+    } catch {
+      // Dashboard falls back to the operation's cached total.
+      setTodayCredit(undefined);
+    }
+  }, []);
   const [activeOperationToEdit, setActiveOperationToEdit] = useState<DailyOperation | null>(null);
   const [databaseReady, setDatabaseReady] = useState(false);
   const [databaseError, setDatabaseError] = useState('');
@@ -236,6 +275,8 @@ export function App() {
         setDatabaseReady(true);
         setDatabaseError('');
         void loadCustomers();
+        void loadStandaloneExpenses();
+        void loadTodayCredit();
       } catch (error: any) {
         if (!cancelled) {
           setDatabaseError(error?.message || 'Could not open the SQLite database.');
@@ -249,10 +290,14 @@ export function App() {
     };
   }, []);
 
-  // Keep the customer list fresh when opening Daily Operation or Customers.
+  // Keep lists fresh when a tab is opened: customers (Daily Operation and
+  // Customers) and standalone Expenses-page entries (Dashboard and History).
   useEffect(() => {
     if (activeTab === 'daily' || activeTab === 'customers') void loadCustomers();
-  }, [activeTab, loadCustomers]);
+    if (activeTab === 'customers') setCustomersRefreshSignal((s) => s + 1);
+    if (activeTab === 'dashboard' || activeTab === 'history' || activeTab === 'expenses') void loadStandaloneExpenses();
+    if (activeTab === 'dashboard') void loadTodayCredit();
+  }, [activeTab, loadCustomers, loadStandaloneExpenses, loadTodayCredit]);
 
   const applyState = (next: PetrolSqliteState) => {
     setStation(next.station || EMPTY_STATION);
@@ -631,9 +676,11 @@ export function App() {
                     <p className="text-base font-bold text-slate-800">
                       {managerFirstName}
                     </p>
-                    <p className="text-sm font-medium text-slate-400">
-                      Manager
-                    </p>
+                    {managerFirstName !== 'Manager' && (
+                      <p className="text-sm font-medium text-slate-400">
+                        Manager
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -665,6 +712,8 @@ export function App() {
   employees={[]}
   operations={operations}
   stockRecords={fuelStock}
+  standaloneExpenses={standaloneExpenses}
+  todayCredit={todayCredit}
   onNavigateToOperation={() => selectTab('daily')}
   onNavigateToFuelStock={() => selectTab('fuel-stock')}
   onNavigateToHistory={() => selectTab('history')}
@@ -698,6 +747,7 @@ export function App() {
                   onGetUdhaarTotal={handleGetUdhaarTotal}
                   activeOperationToEdit={activeOperationToEdit ?? resumeOperation}
                   existingOperations={operations}
+                  standaloneExpenses={standaloneExpenses}
                   onSaveOperation={handleSaveOperation}
                   onStartNewDay={handleStartNewDay}
                   onUpdateStationConfig={handleUpdateStation}
@@ -732,6 +782,7 @@ export function App() {
                   nozzles={nozzles}
                   employees={[]}
                   rateChanges={rateChanges}
+                  standaloneExpenses={standaloneExpenses}
                   onUnlockOperationForEdit={async (operation) => {
                     // Serialize with pending saves before reloading the confirmed state.
                     const run = async () => {
@@ -764,7 +815,7 @@ export function App() {
               </div>
 
               <div className={activeTab === 'customers' ? '' : 'hidden'}>
-                <CustomersPage onCustomersChanged={() => void loadCustomers()} />
+                <CustomersPage onCustomersChanged={() => void loadCustomers()} refreshSignal={customersRefreshSignal} />
               </div>
 
               <div className={activeTab === 'expenses' ? '' : 'hidden'}>

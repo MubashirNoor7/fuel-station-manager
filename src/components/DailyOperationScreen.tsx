@@ -49,6 +49,7 @@ import {
 } from 'lucide-react';
 
 import { saveErrorText, type SaveResult } from '../logic/saveResult';
+import { operationWithLedgerExpenses, type StandaloneExpense } from '../logic/dayTotals';
 
 interface DailyOperationScreenProps {
   station: StationConfig;
@@ -73,6 +74,8 @@ interface DailyOperationScreenProps {
   onStartNewDay?: () => void;
   /** Fuel stock records for stock availability check before accepting readings. */
   stockRecords?: FuelStockDayRecord[];
+  /** Expenses entered on the Expenses page (standalone ledger entries, issue #17). */
+  standaloneExpenses?: StandaloneExpense[];
 }
 
 import {
@@ -99,6 +102,7 @@ export function DailyOperationScreen({
   existingOperations = [],
   onStartNewDay,
   stockRecords = [],
+  standaloneExpenses,
 }: DailyOperationScreenProps) {
   const activeNozzles = useMemo(() => nozzles.filter((n) => n.isActive), [nozzles]);
 
@@ -2027,7 +2031,7 @@ export function DailyOperationScreen({
 
       <PrintDailySheetModal
   isOpen={showPrintModal}
-  record={savedFinalOperation || activeOperationToEdit || null}
+  record={(savedFinalOperation || activeOperationToEdit) ? operationWithLedgerExpenses(savedFinalOperation || activeOperationToEdit!, standaloneExpenses) : null}
   station={station}
   employees={employees}
   onClose={() => setShowPrintModal(false)}
