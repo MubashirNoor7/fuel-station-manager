@@ -44,15 +44,15 @@ credit (*udhaar*), daily expenses, and the end-of-day cash check.
 
 ![Dashboard](docs/screenshots/dashboard.png)
 
-*Dashboard — the daily totals at a glance.*
+*Dashboard — the daily totals at a glance. (Demo data.)*
 
 ![Daily Operation](docs/screenshots/daily-operation.png)
 
-*Daily Operation — enter nozzle readings per shift.*
+*Daily Operation — enter nozzle readings per shift. (Demo data.)*
 
 ![Customers](docs/screenshots/customers.png)
 
-*Customers and credit — balances, credit given and repayments.*
+*Customers and credit — balances, credit given and repayments. (Demo data.)*
 
 ## Install (Windows)
 
@@ -89,7 +89,7 @@ can still be in the `-wal` file. Use the backup command instead.
 ## Tests
 
 ```sh
-npm run test:all   # calculations, store, readings, stock, dates, CSV and backup
+npm run test:all   # calculations, day totals, store, readings, stock, dates, CSV and backup
 ```
 
 The suites run against in-memory or temporary test databases and never touch
@@ -116,7 +116,6 @@ formats it for display.
 - **One pump.** Multiple stations are not supported.
 - **Pakistan-specific defaults:** Asia/Karachi dates, Rs. currency, petrol and CNG.
 - **Backups are manual.** The app does not back up by itself yet.
-- **Expenses page totals (issue #17).** Expenses entered on the Expenses page are saved, but they do not appear in dashboard and history day totals yet — only expenses added inside Daily Operation count. Expected cash is overstated by the missing amount. Fix in progress.
 
 ## Roadmap
 

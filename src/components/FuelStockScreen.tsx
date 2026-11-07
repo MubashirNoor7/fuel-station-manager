@@ -837,13 +837,13 @@ export function FuelStockScreen({
                       {row.businessDate}
                     </td>
                     <td className="whitespace-nowrap px-5 py-4 text-right text-sm font-semibold text-slate-700">
-                      {formatQty(row.supplied)} L
+                      {formatQty(row.supplied)} {getUnitShort(activeFuel)}
                     </td>
                     <td className="whitespace-nowrap px-5 py-4 text-right text-sm font-semibold text-slate-700">
-                      {formatQty(row.sold)} L
+                      {formatQty(row.sold)} {getUnitShort(activeFuel)}
                     </td>
                     <td className="whitespace-nowrap px-5 py-4 text-right text-sm font-black text-slate-900">
-                      {formatQty(row.remainingStock)} L
+                      {formatQty(row.remainingStock)} {getUnitShort(activeFuel)}
                     </td>
                     <td className="whitespace-nowrap px-5 py-4 text-center">
                       <span
@@ -1059,13 +1059,13 @@ export function FuelStockScreen({
                         {row.businessDate}
                       </td>
                       <td className="px-4 py-4 text-right text-base font-semibold text-slate-700">
-                        {formatQty(row.supplied)} L
+                        {formatQty(row.supplied)} {getUnitShort(activeFuel)}
                       </td>
                       <td className="px-4 py-4 text-right text-base font-semibold text-slate-700">
-                        {formatQty(row.sold)} L
+                        {formatQty(row.sold)} {getUnitShort(activeFuel)}
                       </td>
                       <td className="px-4 py-4 text-right text-base font-black text-slate-900">
-                        {formatQty(row.remainingStock)} L
+                        {formatQty(row.remainingStock)} {getUnitShort(activeFuel)}
                       </td>
                       <td className="px-4 py-4 text-center">
                         <span

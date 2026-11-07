@@ -40,7 +40,7 @@ const rs = (paisa: number) =>
 const todayIso = () => getPakistanLocalDate();
 const monthStart = () => todayIso().slice(0, 8) + '01';
 
-export function CustomersPage({ onCustomersChanged }: { onCustomersChanged?: () => void }) {
+export function CustomersPage({ onCustomersChanged, refreshSignal }: { onCustomersChanged?: () => void; refreshSignal?: number }) {
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [search, setSearch] = useState('');
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -92,7 +92,11 @@ export function CustomersPage({ onCustomersChanged }: { onCustomersChanged?: () 
 
   useEffect(() => {
     void loadCustomers();
-  }, [loadCustomers]);
+    // Reload whenever the tab is reopened, so balances never go stale
+    // (a credit given on the Daily Operation tab used to show Rs. 0 here
+    // until the app was restarted).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loadCustomers, refreshSignal]);
 
   useEffect(() => {
     if (selectedId) void loadStatement(selectedId);
@@ -247,7 +251,7 @@ export function CustomersPage({ onCustomersChanged }: { onCustomersChanged?: () 
         </div>
       )}
 
-      <div className="grid gap-6 lg:grid-cols-[340px_1fr]">
+      <div className="grid gap-6 lg:grid-cols-[300px_1fr]">
         {/* Customer list */}
         <div className="rounded-2xl border-2 border-slate-200 bg-white p-5 shadow-sm">
           <div className="mb-4 flex items-center justify-between gap-3">
@@ -301,7 +305,7 @@ export function CustomersPage({ onCustomersChanged }: { onCustomersChanged?: () 
         </div>
 
         {/* Statement */}
-        <div className="rounded-2xl border-2 border-slate-200 bg-white p-5 shadow-sm">
+        <div className="min-w-0 rounded-2xl border-2 border-slate-200 bg-white p-5 shadow-sm">
           {!selected ? (
             <p className="py-16 text-center text-base font-medium text-slate-500">
               Select a customer to see their credit statement.
@@ -320,7 +324,7 @@ export function CustomersPage({ onCustomersChanged }: { onCustomersChanged?: () 
                     Balance due: {rs(selected.balance || 0)}
                   </p>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   <button
                     type="button"
                     onClick={() => {

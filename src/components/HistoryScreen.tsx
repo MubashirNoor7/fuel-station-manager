@@ -12,6 +12,12 @@ import {
 import { StatusBadge } from './StatusBadge';
 import { PrintDailySheetModal } from './PrintDailySheetModal';
 import {
+  dayExpenseTotal,
+  operationWithLedgerExpenses,
+  standaloneTotalForDay,
+  type StandaloneExpense,
+} from '../logic/dayTotals';
+import {
   History,
   Calendar,
   Eye,
@@ -38,6 +44,8 @@ interface HistoryScreenProps {
   nozzles: Nozzle[];
   employees: Employee[];
   rateChanges?: RateChangeRecord[];
+  /** Expenses entered on the Expenses page (standalone ledger entries, issue #17). */
+  standaloneExpenses?: StandaloneExpense[];
   onUnlockOperationForEdit?: (op: DailyOperation) => void;
   onUpdateOperation?: (op: DailyOperation) => Promise<SaveResult> | void;
   onUpdateStationConfig?: (update: StationConfigUpdate) => Promise<SaveResult> | void;
@@ -92,6 +100,7 @@ export function HistoryScreen({
   nozzles: _nozzles,
   employees,
   rateChanges = [],
+  standaloneExpenses,
   onUnlockOperationForEdit,
   onUpdateOperation,
   onUpdateStationConfig,
@@ -171,7 +180,7 @@ export function HistoryScreen({
 
     return operations
       .filter((op) => {
-        if (op.status !== 'CLOSED' && !op.nozzleReadings.some(r => r.closingAccepted) && !(op.cashDeposits || []).length && !op.expenses.length) return false;
+        if (op.status !== 'CLOSED' && !op.nozzleReadings.some(r => r.closingAccepted) && !(op.cashDeposits || []).length && !op.expenses.length && standaloneTotalForDay(standaloneExpenses, op.businessDate) <= 0) return false;
         if (op.businessDate < from || op.businessDate > to) return false;
 
         // Shift filter
@@ -242,9 +251,28 @@ export function HistoryScreen({
         .map((r) => ({ op, r })),
     );
 
-    const expenses = dayOperations.flatMap((op) =>
-      (op.expenses || []).map((expense) => ({ op, expense })),
-    );
+    // Issue #17: Expenses-page entries are standalone ledger documents for
+    // this day — list them too (op is null, so there is no per-row delete
+    // here; reverse them on the Expenses page).
+    const expenses = [
+      ...dayOperations.flatMap((op) =>
+        (op.expenses || []).map((expense) => ({ op, expense })),
+      ),
+      ...(selectedDateForDetail
+        ? (standaloneExpenses || [])
+            .filter((e) => e.day === selectedDateForDetail)
+            .map((e) => ({
+              op: null as unknown as DailyOperation,
+              expense: {
+                id: `ledger-${e.id}`,
+                description: e.note || 'Expense',
+                category: 'Other' as const,
+                amount: e.amount,
+                dateTime: `${e.day}T00:00:00`,
+              },
+            }))
+        : []),
+    ];
 
     const cash = dayOperations.flatMap((op) =>
       (op.cashDeposits || []).map((deposit) => ({ op, deposit })),
@@ -260,14 +288,14 @@ export function HistoryScreen({
       expenseTotal: expenses.reduce((s, x) => s + x.expense.amount, 0),
       cashTotal: cash.reduce((s, x) => s + x.deposit.amount, dayOperations.filter(op=>op.manualSummary).reduce((n,op)=>n+Number(op.manualSummary?.cashCollected||0),0)),
     };
-  }, [selectedDateForDetail, operations]);
+  }, [selectedDateForDetail, operations, standaloneExpenses]);
 
   // ============ ROW CALCULATIONS ============
   const getRowData = (op: DailyOperation) => {
     if (op.manualSummary) {
       const rows=Object.entries(op.manualSummary.fuel).filter(([fuel])=>fuelTypeFilter==='ALL'||fuelTypeFilter===fuel);
       const totalSales=rows.reduce((n,[,r])=>n+Number(r?.amount||0),0), totalQty=rows.reduce((n,[,r])=>n+Number(r?.quantity||0),0);
-      return {totalSales,totalQty,totalExpenses:op.totalExpenses,netAfterExpenses:totalSales-op.totalExpenses,shiftLabel:'Manual daily summary'};
+      return {totalSales,totalQty,totalExpenses:dayExpenseTotal(op.totalExpenses, standaloneExpenses, op.businessDate),netAfterExpenses:totalSales-dayExpenseTotal(op.totalExpenses, standaloneExpenses, op.businessDate),shiftLabel:'Manual daily summary'};
     }
     const readings = (op.nozzleReadings || []).filter(
       (r) => r.closingAccepted === true,
@@ -284,7 +312,8 @@ export function HistoryScreen({
 
     const totalSales = filtered.reduce((s, r) => s + r.salesAmount, 0);
     const totalQty = filtered.reduce((s, r) => s + r.quantitySold, 0);
-    const totalExpenses = op.totalExpenses || 0;
+    // Issue #17: add standalone Expenses-page entries for this day.
+    const totalExpenses = dayExpenseTotal(op.totalExpenses, standaloneExpenses, op.businessDate);
     const netAfterExpenses = totalSales - totalExpenses;
 
     // Shift label
@@ -993,7 +1022,7 @@ export function HistoryScreen({
                     <tbody className="divide-y divide-slate-100">
                       {selectedDay.expenses.map(({ op, expense }) => (
                         <tr
-                          key={`${op.id}-${expense.id}`}
+                          key={op ? `${op.id}-${expense.id}` : `ledger-${expense.id}`}
                           className="hover:bg-slate-50/70"
                         >
                           <td className="px-5 py-4 text-base font-semibold text-slate-800">
@@ -1006,21 +1035,30 @@ export function HistoryScreen({
                             {formatCurrency(expense.amount)}
                           </td>
                           <td className="px-5 py-4 text-center">
-                            <button
-                              onClick={() =>
-                                requestDeleteExpense(
-                                  op,
-                                  expense.id,
-                                  expense.description,
-                                  expense.amount,
-                                )
-                              }
-                              className="inline-flex items-center gap-2 rounded-xl border-2 border-rose-200 bg-rose-50 px-4 py-2 text-sm font-bold text-rose-700 transition hover:bg-rose-100"
-                              title="Delete expense"
-                            >
-                              <Trash2 className="h-4 w-4" />
-                              Delete
-                            </button>
+                            {op ? (
+                              <button
+                                onClick={() =>
+                                  requestDeleteExpense(
+                                    op,
+                                    expense.id,
+                                    expense.description,
+                                    expense.amount,
+                                  )
+                                }
+                                className="inline-flex items-center gap-2 rounded-xl border-2 border-rose-200 bg-rose-50 px-4 py-2 text-sm font-bold text-rose-700 transition hover:bg-rose-100"
+                                title="Delete expense"
+                              >
+                                <Trash2 className="h-4 w-4" />
+                                Delete
+                              </button>
+                            ) : (
+                              <span
+                                className="text-sm font-medium text-slate-400"
+                                title="Entered on the Expenses page — reverse it there"
+                              >
+                                —
+                              </span>
+                            )}
                           </td>
                         </tr>
                       ))}
@@ -1243,7 +1281,7 @@ export function HistoryScreen({
       {/* ============ PRINT MODAL ============ */}
       <PrintDailySheetModal
         isOpen={!!selectedOperationForPrint}
-        record={selectedOperationForPrint}
+        record={selectedOperationForPrint ? operationWithLedgerExpenses(selectedOperationForPrint, standaloneExpenses) : null}
         station={station}
         employees={employees}
         onClose={() => setSelectedOperationForPrint(null)}
