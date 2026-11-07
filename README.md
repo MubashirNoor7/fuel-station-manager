@@ -26,7 +26,7 @@ credit (*udhaar*), daily expenses, and the end-of-day cash check.
   credit, receive repayments, and see each customer's statement with a running
   balance. A repayment larger than the balance is rejected.
 - **Expenses** — record daily expenses with categories, and reverse an entry
-  with a reason when a mistake is made.
+  with a reason when a mistake is made. Enter each expense once — entries from the Expenses page and from inside Daily Operation are added together for the day.
 - **Dashboard** — the day's totals at a glance: fuel sold, sales amount,
   credit given, expenses and expected cash.
 - **History** — past days with their totals. A day can be closed once its
