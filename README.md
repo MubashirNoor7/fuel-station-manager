@@ -116,6 +116,7 @@ formats it for display.
 - **One pump.** Multiple stations are not supported.
 - **Pakistan-specific defaults:** Asia/Karachi dates, Rs. currency, petrol and CNG.
 - **Backups are manual.** The app does not back up by itself yet.
+- **Expenses page totals (issue #17).** Expenses entered on the Expenses page are saved, but they do not appear in dashboard and history day totals yet — only expenses added inside Daily Operation count. Expected cash is overstated by the missing amount. Fix in progress.
 
 ## Roadmap
 
